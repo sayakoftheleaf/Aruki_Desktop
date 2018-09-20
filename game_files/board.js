@@ -1,17 +1,24 @@
+//
+// MODULE : Board Manipulation Functions
+// Exports a number of functions related to board manipulation
+// Module only contains pure functions and makes no changes to game state
+//
 
-const global = require('./globalComponents.js')
-// module that exports a number of board functionality
 
-var defaultSquare = () => {
+// Sets up the default empty sqaure that has no pieces on it
+//
+// NOTE (technical) : This cannot be annoymous because one of
+// the local functions uses it.
+function defaultSquare() {
 	return {
 		player: 0,
 		symbol: '#'
 	}
 }
-
 exports.defaultSquare = defaultSquare
 
-exports.setUpFreshBoard = () => {
+// Creates a new Board with all defaultSquares in them
+function setUpFreshBoard() {
 	let newBoard = []
 	for (let i = 0; i <= 11; i++) {
 		let col = []
@@ -24,27 +31,32 @@ exports.setUpFreshBoard = () => {
 }
 
 //Initializes a board 
-exports.initBoard = (someBoard) => {
+function initBoard(someBoard) {
+
 	// Rooks
 	someBoard[0][0].symbol = 'R1'
 	someBoard[11][0].symbol = 'R1'
 	someBoard[0][11].symbol = 'R2'
 	someBoard[11][11].symbol = 'R2'
+
 	// ArsomeBoards
 	someBoard[0][1].symbol = 'A1'
 	someBoard[0][10].symbol = 'A2'
 	someBoard[11][1].symbol = 'A1'
 	someBoard[11][10].symbol = 'A2'
+
 	// Lances
 	someBoard[0][2].symbol = 'L1'
 	someBoard[0][9].symbol = 'L2'
 	someBoard[11][9].symbol = 'L1'
 	someBoard[11][2].symbol = 'L2'
+
 	// Pikes
 	someBoard[0][3].symbol = 'P1'
 	someBoard[0][8].symbol = 'P2'
 	someBoard[11][3].symbol = 'P1'
 	someBoard[11][8].symbol = 'P2'
+
 	// Lesser Rivers
 	someBoard[0][4].symbol = 'LR'
 	someBoard[11][4].symbol = 'LR'
@@ -77,26 +89,49 @@ exports.initBoard = (someBoard) => {
 }
 
 // Deep copies a board
-exports.copyBoard = (originalBoard) => {
+function copyBoard(originalBoard) {
 	return originalBoard.map(col => global.deepCopy(col))
 };
 
-exports.stringBoard = (someBoard) => {
-
-	let strBoard = ''
-
-	let colArr = someBoard.map(col => {
-		let str = ''
-		col.forEach(element => {
-			// console.log(element.symbol)
-			str = str + element.symbol + '\t'
-		})
-		return str
+// Returns a string representation of the board
+// (without any indication of which pieces belong to which player)
+function stringBoard(someBoard) {
+	someBoard = someBoard.map((col) => {
+		return col.reduce((accum, square) => accum + square.symbol + '\t', '')
 	})
 
-	colArr.forEach(element => {
-		strBoard += element + '\n'
-	})
-	
-	return strBoard
+	return someBoard.reduce((accum, col) => accum + col + '\n', '')
 }
+
+// Checks whether a move is within the Board
+function withinBoard(someRow, someCol) {
+	return ((someRow <= 11) && (someRow >= 0))
+		? ((someCol <= 11) && (someCol >= 0)) ? true : false
+		: false
+}
+
+// Finds the position of a piece of a side and
+// returns an object comprised of the row and column.
+function positionOf(symbol, someBoard, player) {
+	for (let a = 0; a <= 11; a++) {
+		for (let b = 0; b <= 11; b++) {
+			(someBoard[a][b].symbol.includes(symb) && player === someBoard[a][b].player)
+				? return { row: a, col: b }
+		}
+	}
+}
+
+// Checks if the square in which the piece is trying to move to is
+// occupied by a piece of the same side
+function isNotBlockedSquare(someRow, someCol, tempRow, tempCol, someBoard) {
+	return someBoard[someRow][someCol].player === someBoard[tempRow][tempCol].player ? false : true
+}
+
+exports.setUpFreshBoard = setUpFreshBoard
+exports.initBoard = initBoard
+exports.copyBoard = copyBoard
+exports.stringBoard = stringBoard
+exports.withinBoard = withinBoard
+exports.positionOf = positionOf
+exports.isNotBlockedSquare = isNotBlockedSquare
+

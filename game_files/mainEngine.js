@@ -1,9 +1,20 @@
+//
+// MODULE : Main Game Engine
+// The Main Game Engine that creates and runs the game
+// The only Module that makes changes to the game state
+//
 
 const boardFunctions = require('./board.js')
-var global = require('./globalComponents.js')
+const playerMoveFunctions = require('./playerMove.js')
 
-global.mainBoard = boardFunctions.initBoard(boardFunctions.setUpFreshBoard())
+// Importing the Global State Object, and some utility functions
+const gameState = require('./gameState.js').gameState
+const stateFunctions = require('./gameState.js')
 
-console.log(boardFunctions.stringBoard(global.mainBoard))
+// Initializing the main Board
+stateFunctions.setMainBoard(boardFunctions.initBoard(boardFunctions.setUpFreshBoard()))
+
+// Prints the board
+console.log(boardFunctions.stringBoard(stateFunctions.getMainBoard()))
 
 
