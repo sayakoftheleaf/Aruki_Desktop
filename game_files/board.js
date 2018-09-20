@@ -1,134 +1,102 @@
 
+const global = require('./globalComponents.js')
+// module that exports a number of board functionality
 
+var defaultSquare = () => {
+	return {
+		player: 0,
+		symbol: '#'
+	}
+}
 
-var row = [];
+exports.defaultSquare = defaultSquare
 
-/*	
-	FUNCTION PURPOSE - constructor for a piece
-*/
-function piece(){};
-
-/* 
-	array of all possible pieces	
-*/
-var allpieces = [];
-
-
-/* 
-	FUNCTION PURPOSE - constructor for a square
-*/
-var square = function(){};
-	
-// 0 indicates square is empty
-// 1 indicates player is white
-// 2 indicates player is black
-square.prototype.player = 0;
-square.prototype.symbol = "#";
-
-/* 
-	FUNCTION PURPOSE - creates the initial empty board
-*/
-
-function create_board(board) {
-	
-	for(var i = 0; i <= 11; i++)
-	{
-		var col = [];
-		for(var j = 0; j <= 11; j++)
-		{
-			col[j] = new square;
+exports.setUpFreshBoard = () => {
+	let newBoard = []
+	for (let i = 0; i <= 11; i++) {
+		let col = []
+		for (let j = 0; j <= 11; j++) {
+			col[j] = defaultSquare()
 		}
-
-	board[i] = col;
+		newBoard[i] = col;
 	}
+	return newBoard
+}
 
+//Initializes a board 
+exports.initBoard = (someBoard) => {
+	// Rooks
+	someBoard[0][0].symbol = 'R1'
+	someBoard[11][0].symbol = 'R1'
+	someBoard[0][11].symbol = 'R2'
+	someBoard[11][11].symbol = 'R2'
+	// ArsomeBoards
+	someBoard[0][1].symbol = 'A1'
+	someBoard[0][10].symbol = 'A2'
+	someBoard[11][1].symbol = 'A1'
+	someBoard[11][10].symbol = 'A2'
+	// Lances
+	someBoard[0][2].symbol = 'L1'
+	someBoard[0][9].symbol = 'L2'
+	someBoard[11][9].symbol = 'L1'
+	someBoard[11][2].symbol = 'L2'
+	// Pikes
+	someBoard[0][3].symbol = 'P1'
+	someBoard[0][8].symbol = 'P2'
+	someBoard[11][3].symbol = 'P1'
+	someBoard[11][8].symbol = 'P2'
+	// Lesser Rivers
+	someBoard[0][4].symbol = 'LR'
+	someBoard[11][4].symbol = 'LR'
+
+	// Greater Rivers
+	someBoard[0][7].symbol = 'GR'
+	someBoard[11][7].symbol = 'GR'
+
+	// Kings
+	someBoard[0][5].symbol = 'K'
+	someBoard[11][5].symbol = 'K'
+
+	// Jesters
+	someBoard[0][6].symbol = 'J'
+	someBoard[11][6].symbol = 'J'
+
+	// setting up pawns and the player alignment
+	for (let i = 0; i <= 11; i++) {
+		// setting up pawns
+		someBoard[1][i].symbol = 'Z' + i.toString()
+		someBoard[10][i].symbol = 'Z' + i.toString()
+
+		// aligning initial pieces to the players they belong to
+		someBoard[1][i].player = 2
+		someBoard[0][i].player = 2
+		someBoard[10][i].player = 1
+		someBoard[11][i].player = 1
+	}
+	return someBoard
+}
+
+// Deep copies a board
+exports.copyBoard = (originalBoard) => {
+	return originalBoard.map(col => global.deepCopy(col))
 };
 
+exports.stringBoard = (someBoard) => {
 
-/* 	
-	FUNCTION PURPOSE - Initializes the board with the starting position
- 	of the pieces
-*/
+	let strBoard = ''
 
-function init_board() {
-	//Rooks
-	row[0][0].symbol = "R1";
-	row[11][0].symbol = "R1";
-	row[0][11].symbol = "R2";
-	row[11][11].symbol = "R2";
+	let colArr = someBoard.map(col => {
+		let str = ''
+		col.forEach(element => {
+			// console.log(element.symbol)
+			str = str + element.symbol + '\t'
+		})
+		return str
+	})
 
-	//Arrows
-	row[0][1]. symbol = "A1";
-	row[0][10].symbol = "A2";
-	row[11][1].symbol = "A1";
-	row[11][10].symbol = "A2";
+	colArr.forEach(element => {
+		strBoard += element + '\n'
+	})
 	
-	//Lances
-	row[0][2].symbol = "L1";
-	row[0][9].symbol = "L2";
-	row[11][9].symbol = "L1";
-	row[11][2].symbol = "L2";
-	
-
-	//Pikes
-	row[0][3].symbol = "P1";
-	row[0][8].symbol = "P2";
-	row[11][3].symbol = "P1";
-	row[11][8].symbol = "P2";
-
-	//Lesser Rivers
-	row[0][4].symbol = "LR";
-	row[11][4].symbol = "LR";
-
-	//Greater Rivera
-	row[0][7].symbol = "GR";
-	row[11][7].symbol = "GR";
-
-	//Kings
-	row[0][5].symbol = "K";
-	row[11][5].symbol = "K";
-
-	//Jesters
-	row[0][6].symbol = "J";
-	row[11][6].symbol = "J";
-
-	//setting up pawns and the player alignment
-	for(var i = 0; i <= 11; i++)
-	{
-		//setting up pawns
-		row[1][i].symbol = "Z" + i.toString();
-		row[10][i].symbol = "Z" + i.toString();
-
-		//aligning initial pieces to the players they belong to
-		row[1][i].player = 2;
-		row[0][i].player = 2;
-		row[10][i].player = 1;
-		row[11][i].player = 1;
-	}
-};
-
-/* 	FUNCTION PURPOSE - Deep copies a Board into a new Array
-
-	FUNCTION STATUS - Copied Logic from StackOverflow so should work. UNTESTED.
-*/
-
-function copyBoard(originalBoard) {
-	
-	//console.log(originalBoard);
-
-	var newBoard = [];
-	for(var i = 0; i <= 11; i++)
-	{
-		var tempcol = [];
-		for(var j = 0; j <= 11; j++)
-		{
-			tempcol[j] = originalBoard[i][j];
-		}
-
-	newBoard[i] = tempcol;
-	}
-
-	return newBoard;
-};
-
-
+	return strBoard
+}
