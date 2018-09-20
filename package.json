@@ -1,0 +1,22 @@
+{
+  "name": "aruki_desktop",
+  "version": "1.0.0",
+  "description": "Desktop version of Aruki",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sayakoftheleaf/Aruki_Desktop.git"
+  },
+  "author": "Sayak Chatterjee",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sayakoftheleaf/Aruki_Desktop/issues"
+  },
+  "homepage": "https://github.com/sayakoftheleaf/Aruki_Desktop#readme",
+  "dependencies": {
+    "electron": "^2.0.10"
+  }
+}
