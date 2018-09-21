@@ -4,6 +4,7 @@
 // Module only contains pure functions and makes no changes to game state
 //
 
+const stateFunctions = require('./gameState.js')
 
 // FIXME: figure out where computeMoves is
 const boardFunctions = require('./board.js')
@@ -46,3 +47,12 @@ function pushSquares(tempr, tempc, tSquares, player) {
 
 	tSquares.push(tempsq);
 };
+
+
+function.getCapturedPieces(player){
+  let captured = (player === 1)
+   ? stateFunctions.getCapturedPlayer1() 
+   : stateFunctions.getCapturedPlayer2()
+
+  return stateFunctions.deepCopy(captured)
+}

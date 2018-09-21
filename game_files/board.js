@@ -15,7 +15,6 @@ function defaultSquare() {
 		symbol: '#'
 	}
 }
-exports.defaultSquare = defaultSquare
 
 // Creates a new Board with all defaultSquares in them
 function setUpFreshBoard() {
@@ -127,6 +126,9 @@ function isNotBlockedSquare(someRow, someCol, tempRow, tempCol, someBoard) {
 	return someBoard[someRow][someCol].player === someBoard[tempRow][tempCol].player ? false : true
 }
 
+
+// exports
+exports.defaultSquare = defaultSquare
 exports.setUpFreshBoard = setUpFreshBoard
 exports.initBoard = initBoard
 exports.copyBoard = copyBoard

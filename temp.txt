@@ -1,0 +1,5 @@
+x Account Page- Dropdown menu under Service details not responsive
+
+x Innerpage, when scrolling through pictures, the demo div size changes during animation
+
+x Pricing page, See pricing on other occasions as birthday should have animation.
