@@ -26,7 +26,7 @@ function checkForCheck(someBoard, player) {
         // check if the king is in any of those squares,
         // which would imply a check
         tempSquares.forEach(element => {
-          (element.row === tempRow && element.col === tempCol) ? return true
+          if (element.row === tempRow && element.col === tempCol) return true
         })
       }
     })

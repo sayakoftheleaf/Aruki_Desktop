@@ -92,16 +92,6 @@ function copyBoard(originalBoard) {
 	return originalBoard.map(col => global.deepCopy(col))
 };
 
-// Returns a string representation of the board
-// (without any indication of which pieces belong to which player)
-function stringBoard(someBoard) {
-	someBoard = someBoard.map((col) => {
-		return col.reduce((accum, square) => accum + square.symbol + '\t', '')
-	})
-
-	return someBoard.reduce((accum, col) => accum + col + '\n', '')
-}
-
 // Checks whether a move is within the Board
 function withinBoard(someRow, someCol) {
 	return ((someRow <= 11) && (someRow >= 0))
@@ -114,8 +104,7 @@ function withinBoard(someRow, someCol) {
 function positionOf(symbol, someBoard, player) {
 	for (let a = 0; a <= 11; a++) {
 		for (let b = 0; b <= 11; b++) {
-			(someBoard[a][b].symbol.includes(symb) && player === someBoard[a][b].player)
-				? return { row: a, col: b }
+			if (someBoard[a][b].symbol.includes(symb) && player === someBoard[a][b].player) return { row: a, col: b }
 		}
 	}
 }
@@ -132,7 +121,7 @@ exports.defaultSquare = defaultSquare
 exports.setUpFreshBoard = setUpFreshBoard
 exports.initBoard = initBoard
 exports.copyBoard = copyBoard
-exports.stringBoard = stringBoard
+
 exports.withinBoard = withinBoard
 exports.positionOf = positionOf
 exports.isNotBlockedSquare = isNotBlockedSquare

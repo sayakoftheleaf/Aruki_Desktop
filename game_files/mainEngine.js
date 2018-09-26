@@ -9,6 +9,7 @@
 const boardFunctions = require('./board.js')
 const playerMoveFunctions = require('./playerMove.js')
 const evolutionFunctions = require('./evolutionMechanics.js')
+const testFunctions = require('./testMethods.js')
 
 // Importing the Global State Object, and some utility functions
 
@@ -18,11 +19,19 @@ const evolutionFunctions = require('./evolutionMechanics.js')
 
 const stateFunctions = require('./gameState.js')
 
+let freshBoard = boardFunctions.setUpFreshBoard()
+
 // Initializing the main Board
-stateFunctions.setMainBoard(boardFunctions.initBoard(boardFunctions.setUpFreshBoard()))
+stateFunctions.setMainBoard(boardFunctions.initBoard(freshBoard))
 
 // Prints the board
-console.log(boardFunctions.stringBoard(stateFunctions.getMainBoard()))
+let mainBoard = stateFunctions.getMainBoard()
+
+// console.log(testFunctions.stringBoard(dummyBoard, 'symbol'))
+// console.log(testFunctions.stringBoard(dummyBoard, 'player'))
+
+
+
 
 
 

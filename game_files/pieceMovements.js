@@ -12,7 +12,19 @@
 
 const boardFunctions = require('./board.js')
 
-function computeMoves(symbol, r, c, someBoard) {
+// Checks if the square in which the piece is trying to move to is
+// occupied by a piece of the same side
+function isNotBlockedSquare(row, col, tempRow, tempCol, someBoard) {
+
+  let playerCurrentlyMoving = someBoard[row][col].player
+  let squareOccupant = someBoard[tempRow][tempCol].player
+
+  return (playerCurrentlyMoving === squareOccupant) ? false : true
+}
+
+// Returns the moves given the symbol of a piece, it's position in the board
+// and the board
+function computeMoves(symb, r, c, someBoard) {
   let player = someBoard[r][c].player
 
   if (symb === "K") return computeKingMoves(r, c, player, someBoard)
@@ -36,18 +48,8 @@ function computeMoves(symbol, r, c, someBoard) {
   else if (symb.includes("N")) return computeJavelinMoves(r, c, player, someBoard)
 }
 
-// Checks if the square in which the piece is trying to move to is
-// occupied by a piece of the same side
-function isNotBlockedSquare(row, col, tempRowow, tempColol, someBoard) {
-
-  let playerCurrentlyMoving = someBoard[row][col].player
-  let squareOccupant = someBoard[tempRow][tempCol].player
-
-  return (playerCurrentlyMoving === squareOccupant) ? false : true
-}
-
 // Checks if a move is a valid King move
-function possibleMoves = isValidKingMove(row, col, tempRowow, tempColol, possibleMoves, player, someBoard) {
+function isValidKingMove(row, col, tempRowow, tempColol, possibleMoves, player, someBoard) {
 
   if (boardFunctions.withinBoard(tempRowow, tempColol)) {
     if (isNotBlockedSquare(row, col, tempRowow, tempColol, someBoard)) {
@@ -113,18 +115,23 @@ function computeKingMoves(row, col, player, someBoard) {
 // Computes the movement of pawns
 function computePawnMoves(row, col, player, someBoard) {
 
-  let possibleMoves = [], move = { col: col }
+  let possibleMoves = []
+  let move = {}
 
   // depending on who the pawn belongs to, it will move in different directions
-  move.row = (player === 2) ? row + 1 : row - 1
+  move.row = (player === 2) ? (row + 1) : (row - 1)
+  move.col = col
 
   let isBlocked = isNotBlockedSquare(row, col, move.row, move.col, someBoard)
-  let isWithinBoard = withinBoard(move.row, move.col)
+  let isWithinBoard = boardFunctions.withinBoard(move.row, move.col)
+
   if (isBlocked && isWithinBoard) possibleMoves.push(move)
 
   return possibleMoves
 }
 
+
+// TODO: check this
 function findJesterMoves(row, col, tempRow, tempCol, someBoard) {
 
   let isWithinBoard = withinBoard(tempRow, tempCol)
@@ -205,13 +212,13 @@ function computeMinisterMoves(row, col, player, someBoard){
   return possibleMoves
 }
 
-function rookArrowCheck(tempRow, tempCol, possibleMoves, player, someBoard, flag){
-  if (!(withinBoard(tempRow, tempCol) && flag)) return flag
+// function rookArrowCheck(tempRow, tempCol, possibleMoves, player, someBoard, flag){
+//   if (!(withinBoard(tempRow, tempCol) && flag)) return flag
 
-  let thisPlayer = someBoard[tempRow][tempCol].player
-  if (thisPlayer === player) return false
-  if (thisPlayer === 0) 
+//   let thisPlayer = someBoard[tempRow][tempCol].player
+//   if (thisPlayer === player) return false
+//   if (thisPlayer === 0) 
 
-}
+// }
 // exports
 exports.computeMoves = computeMoves

@@ -4,7 +4,7 @@ const { app, BrowserWindow } = require('electron')
 let win
 
 function createWindow() {
-  win = new BrowserWindow({ fullscreen: true })
+  win = new BrowserWindow({})
 
   win.loadFile('index.html')
 
@@ -16,13 +16,13 @@ function createWindow() {
 app.on('ready', createWindow)
 
 app.on('window-all-closed', () => {
-  if(process.platform !== 'darwin'){
+  if (process.platform !== 'darwin') {
     app.quit()
   }
 })
 
 app.on('activate', () => {
-  if (win === null){
+  if (win === null) {
     createWindow()
   }
 })
