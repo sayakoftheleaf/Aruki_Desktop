@@ -19,6 +19,12 @@ var gameState = {
 
 exports.deepCopy = (anArr) => Array.from(anArr)
 exports.printGameState = () => console.log(gameState)
+exports.pushSquares = (row, col, arr, player) =>  {
+  arr.push({
+    row: row,
+    col: col
+  })
+}
 
 // Get functions
 exports.getPlayerMove = () => gameState.playerMove

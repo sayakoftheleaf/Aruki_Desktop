@@ -140,6 +140,78 @@ function findJesterMoves(row, col, tempRow, tempCol, someBoard) {
   else if (symbol === "LR" || symbol === "GR") return computeKingMoves(row, col, someBoard[row][col].player, someBoard)
 }
 
-//TODO: start from computeJesterMoves()
+function computeJesterMoves(row, col, player, someBoard){
+  let possibleMoves = []
+  let tempRow, tempCol
+
+	//Square to the right
+	tempRow = row + 1
+	tempCol = col
+
+  possibleMoves = possibleMoves.concat(findJesterMoves(row, col, tempRow, tempCol, someBoard))
+
+	//Square to the left
+	tempRow = row - 1
+	tempCol = col
+
+	possibleMoves = possibleMoves.concat(findJesterMoves(row, col, tempRow, tempCol, someBoard))
+
+	//Square to the top right diagonal
+	tempRow = row + 1
+	tempCol = col - 1
+
+	possibleMoves = possibleMoves.concat(findJesterMoves(row, col, tempRow, tempCol, someBoard))
+
+	//Square to the bottom right diagonal
+	tempRow = row + 1
+	tempCol = col + 1
+
+  possibleMoves = possibleMoves.concat(findJesterMoves(row, col, tempRow, tempCol, someBoard))
+
+	//Square to the bottom left diagonal
+	tempRow = row - 1
+	tempCol = col + 1
+
+	possibleMoves = possibleMoves.concat(findJesterMoves(row, col, tempRow, tempCol, someBoard))
+
+	//Square to the right top right diagonal
+  tempRow = row - 1	
+  tempCol = col - 1
+  
+	possibleMoves = possibleMoves.concat(findJesterMoves(r, c, tempRow, tempCol, someBoard))
+
+	//Square to the bottom
+	tempRow = row
+	tempCol = col + 1
+
+	possibleMoves = possibleMoves.concat(findJesterMoves(r, c, tempRow, tempCol, someBoard))
+
+	//Square to the top
+	tempRow = row
+	tempCol = col - 1
+
+	possibleMoves = possibleMoves.concat(findJesterMoves(r, c, tempRow, tempCol, someBoard))
+
+	return possibleMoves
+}
+
+function computeMinisterMoves(row, col, player, someBoard){
+  let possibleMoves = []
+  let tempRow, tempCol
+
+  possibleMoves = computeRookMoves(row, col, player, someBoard)
+  possibleMoves = possibleMoves.concat(computeArrowMoves(row, col, player, someBoard))
+
+  return possibleMoves
+}
+
+function rookArrowCheck(tempRow, tempCol, possibleMoves, player, someBoard, flag){
+  if (!(withinBoard(tempRow, tempCol) && flag)) return flag
+
+  let thisPlayer = someBoard[tempRow][tempCol].player
+  if (thisPlayer === player) return false
+  if (thisPlayer === 0) 
+
+}
 // exports
 exports.computeMoves = computeMoves
