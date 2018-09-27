@@ -9,6 +9,32 @@
 
 const boardFunctions = require('./board.js')
 
+// Returns the moves given the symbol of a piece, it's position in the board
+// and the board
+function computeMoves (symbol, row, col, someBoard) {
+  let player = someBoard[row][col].player
+
+  if (symbol.includes('K')) return computeKingMoves(row, col, player, someBoard)
+  else if (symbol.includes('J')) return computeJesterMoves(row, col, player, someBoard)
+  else if (symbol.includes('GR')) {
+    return computeGreaterRiverMoves(row, col, player, someBoard)
+  }
+  else if (symbol.includes('LR')) {
+    return computeLesserRiverMoves(row, col, player, someBoard)
+  }
+  else if (symbol.includes('MI')) return computeMinisterMoves(row, col, player, someBoard)
+  else if (symbol.includes('PP')) return computeGreaterPikeMoves(row, col, player, someBoard)
+  else if (symbol.includes('LL')) return computeGreaterLanceMoves(row, col, player, someBoard)
+  else if (symbol.includes('SS')) return computeLongSwordMoves(row, col, player, someBoard)
+  else if (symbol.includes('R')) return computeRookMoves(row, col, player, someBoard)
+  else if (symbol.includes('Z')) return computePawnMoves(row, col, player, someBoard)
+  else if (symbol.includes('A')) return computeArrowMoves(row, col, player, someBoard)
+  else if (symbol.includes('L')) return computeLanceMoves(row, col, player, someBoard)
+  else if (symbol.includes('P')) return computePikeMoves(row, col, player, someBoard)
+  else if (symbol.includes('S')) return computeSwordMoves(row, col, player, someBoard)
+  else if (symbol.includes('N')) return computeJavelinMoves(row, col, player, someBoard)
+}
+
 // Checks if the square in which the piece is trying to move to is
 // occupied by a piece of the same side
 function isNotBlockedSquare(row, col, tempRow, tempCol, someBoard) {
@@ -19,40 +45,18 @@ function isNotBlockedSquare(row, col, tempRow, tempCol, someBoard) {
   return (playerCurrentlyMoving === squareOccupant) ? false : true
 }
 
-// Returns the moves given the symbol of a piece, it's position in the board
-// and the board
-function computeMoves (symb, r, c, someBoard) {
-  let player = someBoard[r][c].player
-
-  if (symb === 'K') return computeKingMoves(r, c, player, someBoard)
-  else if (symb.includes('J')) return computeJesterMoves(r, c, player, someBoard)
-  else if (symb === "GR") {
-    return computeGreaterRiverMoves(r, c, player, someBoard)
-  }
-  else if (symb === "LR") {
-    return computeLesserRiverMoves(r, c, player, someBoard)
-  }
-  else if (symb.includes("MI")) return computeMinisterMoves(r, c, player, someBoard)
-  else if (symb.includes("PP")) return computeGreaterPikeMoves(r, c, player, someBoard)
-  else if (symb.includes("LL")) return computeGreaterLanceMoves(r, c, player, someBoard)
-  else if (symb.includes("SS")) return computeLongSwordMoves(r, c, player, someBoard)
-  else if (symb.includes("R")) return computeRookMoves(r, c, player, someBoard)
-  else if (symb.includes("Z")) return computePawnMoves(r, c, player, someBoard)
-  else if (symb.includes("A")) return computeArrowMoves(r, c, player, someBoard)
-  else if (symb.includes("L")) return computeLanceMoves(r, c, player, someBoard)
-  else if (symb.includes("P")) return computePikeMoves(r, c, player, someBoard)
-  else if (symb.includes("S")) return computeSwordMoves(r, c, player, someBoard)
-  else if (symb.includes("N")) return computeJavelinMoves(r, c, player, someBoard)
-}
-
 // Checks if a move is a valid King move
 // TODO : make this a pure function?
-function isValidKingMove (row, col, tempRowow, tempColol, possibleMoves, player, someBoard) {
-  if (boardFunctions.withinBoard(tempRowow, tempColol)) {
-    if (isNotBlockedSquare(row, col, tempRowow, tempColol, someBoard)) {
+function isValidKingMove (row, col, tempRow, tempCol, possibleMoves, player, someBoard) {
+
+  let isWithinbBoard = boardFunctions.withinBoard(tempRowow, tempColol)
+  let isNotBlocked = isNotBlockedSquare(row, col, tempRowow, tempColol, someBoard)
+
+  if (isWithinbBoard) {
+    if (isNotBlocked) {
       let move = {
-        row: tempRowow,
-        col: tempColol
+        row: tempRow,
+        col: tempCol
       }
       possibleMoves.push(move)
     }
@@ -418,9 +422,9 @@ function findJesterMoves (row, col, tempRow, tempCol, someBoard) {
 
   let symbol = someBoard[tempRow][tempCol].symbol
 
-  if ((symbol !== "LR") && (symbol !== "GR")) return computeMoves(symbol, row, col, someBoard)
+  if ((symbol !== 'LR') && (symbol !== 'GR')) return computeMoves(symbol, row, col, someBoard)
   // TODO: what the fuck does this part do
-  else if (symbol === "LR" || symbol === "GR") return computeKingMoves(row, col, someBoard[row][col].player, someBoard)
+  else if (symbol === 'LR' || symbol === 'GR') return computeKingMoves(row, col, someBoard[row][col].player, someBoard)
 }
 
 function computeJesterMoves (row, col, player, someBoard) {
@@ -461,26 +465,22 @@ function computeJesterMoves (row, col, player, someBoard) {
   tempRow = row - 1
   tempCol = col - 1
 
-  possibleMoves = possibleMoves.concat(findJesterMoves(r, c, tempRow, tempCol, someBoard))
+  possibleMoves = possibleMoves.concat(findJesterMoves(row, col, tempRow, tempCol, someBoard))
 
   //Square to the bottom
   tempRow = row
   tempCol = col + 1
 
-  possibleMoves = possibleMoves.concat(findJesterMoves(r, c, tempRow, tempCol, someBoard))
+  possibleMoves = possibleMoves.concat(findJesterMoves(row, col, tempRow, tempCol, someBoard))
 
   //Square to the top
   tempRow = row
   tempCol = col - 1
 
-  possibleMoves = possibleMoves.concat(findJesterMoves(r, c, tempRow, tempCol, someBoard))
+  possibleMoves = possibleMoves.concat(findJesterMoves(row, col, tempRow, tempCol, someBoard))
 
   return possibleMoves
 }
-
-
-
-
 
 // exports
 exports.computeMoves = computeMoves

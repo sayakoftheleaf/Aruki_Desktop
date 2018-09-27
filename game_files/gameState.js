@@ -19,6 +19,8 @@ var gameState = {
 
 exports.deepCopy = (anArr) => Array.from(anArr)
 exports.printGameState = () => console.log(gameState)
+
+// TODO: figure out if we need to do this
 exports.pushSquares = (row, col, arr, player) => {
   arr.push({
     row: row,
@@ -37,7 +39,10 @@ exports.getCapturedPlayer2 = () => gameState.capturedPieces.player2
 exports.setPlayerMove = (newMove) => { gameState.playerMove = newMove }
 exports.setPresentMove = (newMove) => { gameState.presentMove = newMove }
 exports.setMainBoard = (someBoard) => { gameState.mainBoard = someBoard }
-exports.setCapturedPlayer1 = (captured) => { gameState.capturedPieces.player1 = captured }
-exports.setCapturedPlayer2 = (captured) => { gameState.capturedPieces.player2 = captured }
+exports.setCapturedPlayer1 = (captured) => {
+  gameState.capturedPieces.player1.push(captured)
+}
+exports.setCapturedPlayer2 = (captured) => { gameState.capturedPieces.player2.push(captured)
+ }
 
 exports.gameState = gameState
