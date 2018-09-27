@@ -237,7 +237,6 @@ function computeLongSwordMoves(row, col, player, someBoard){
   return computeGreaterLanceMoves(row, col, player, someBoard).concat(computeGreaterPikeMoves(row, col, player, someBoard))
 }
 
-
 function computePawnMoves (row, col, player, someBoard) {
   let possibleMoves = []
   let move = {}
@@ -283,9 +282,8 @@ function computeJavelinMoves (row, col, player, someBoard) {
 	return possibleMoves
 }
 
-// Helper function that computes whether a move is a valid move for a Rook
+// Helper function that computes whether a move is valid for a Rook
 // or an Arrow
-//
 function rookArrowCheck (tempRow, tempCol, player, someBoard) {
   let thisPlayer = someBoard[tempRow][tempCol].player
 

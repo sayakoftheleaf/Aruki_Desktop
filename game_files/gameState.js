@@ -42,7 +42,19 @@ exports.setMainBoard = (someBoard) => { gameState.mainBoard = someBoard }
 exports.setCapturedPlayer1 = (captured) => {
   gameState.capturedPieces.player1.push(captured)
 }
-exports.setCapturedPlayer2 = (captured) => { gameState.capturedPieces.player2.push(captured)
- }
+exports.setCapturedPlayer2 = (captured) => {
+  gameState.capturedPieces.player2.push(captured)
+}
+exports.removeCaptured = (symbol, player) => {
+  let captured =
+  (player === 1) ? gameState.capturedPieces.player1 : gameState.capturedPieces.player2
+
+  for(let a = 0; a < captured.length; a++){
+		if (captured[a].includes(symbol)){
+			captured.splice(a,1);
+			return;
+		}
+	}
+}
 
 exports.gameState = gameState

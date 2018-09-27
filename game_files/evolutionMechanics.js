@@ -1,44 +1,54 @@
 
 const stateFunctions = require('./gameState.js')
 
-// removes a piece from the array given and returns the 
-// new modified arry
-// FIXME: this is not a pure function :(
-function removeCaptured(symbol, player, capturedPieces) {
-  for (let a = 0 a <= copyCapturedPieces.length a++) {
-    if (capturedPieces[a].includes(symb)) capturedPieces.splice(a, 1)
-  }
-  return capturedPieces
-}
-
-function computeEvolution(symbol1, symbol2){
+//
+function computeEvolution(symbolClicked, symbolCaptured) {
 	// greater pike evolution
-  if	(symbol1.includes('P') && symbol2.includes('P')) return 'PP'
+	if (symbolClicked.includes('P') && symbolCaptured.includes('P')) return 'PP'
 
 	// greater lance evolution
-  if (symbol1.includes('L') && symbol2.includes('L')) return 'LL'
+	if (symbolClicked.includes('L') && symbolCaptured.includes('L')) return 'LL'
 
 	// Sword evolution
-	if (symbol1.includes('L') && symbol2.includes('P')) return 'S'
-  if (symbol1.includes('P') && symbol2.includes('L')) return 'S'
+	if (symbolClicked.includes('L') && symbolCaptured.includes('P')) return 'S'
+	if (symbolClicked.includes('P') && symbolCaptured.includes('L')) return 'S'
 
 	// Long sword evolution
-	if (symbol1.includes('S') && symbol2.includes('S')) return 'SS'
-	if (symbol1.includes('PP') && symbol2.includes('LL')) return 'SS'
-  if (symbol1.includes('LL') && symbol2.includes('PP')) return 'SS'
+	if (symbolClicked.includes('S') && symbolCaptured.includes('S')) return 'SS'
+	if (symbolClicked.includes('PP') && symbolCaptured.includes('LL')) return 'SS'
+	if (symbolClicked.includes('LL') && symbolCaptured.includes('PP')) return 'SS'
 
 	// Javelin evolution
-  if (symbol1.includes('Z') && symbol2.includes('Z')) return 'N'
+	if (symbolClicked.includes('Z') && symbolCaptured.includes('Z')) return 'N'
 
 	// Minister evolution
-	if (symbol1.includes('R') && symbol2.includes('A')) return 'MI'
-	if (symbol1.includes('A') && symbol2.includes('R')) return 'MI'
+	if (symbolClicked.includes('R') && symbolCaptured.includes('A')) return 'MI'
+	if (symbolClicked.includes('A') && symbolCaptured.includes('R')) return 'MI'
 
 	// This is the default return if no valid evolutions are found
-	return symbol2
+	return symbolClicked
 }
 
+// given a board, a piece's position and the symbol, and the symbol of the piece
+// from the captured list it's intending to evolve with, determines whether the
+// capture is valid or not and returns the appropriately modified board.
+function evolvePiece(row, col, symbolClicked, symbolCaptured, someBoard) {
+	let square = someBoard[row][col]
+	if (!(square.symbol.includes(symbolClicked))) return someBoard
 
+	let capturedPieceList = (square.player === 1) ?
+			stateFunctions.getCapturedPlayer1() :
+			stateFunctions.getCapturedPlayer2()
+
+	capturedPieceList.forEach(element => {
+		if (element.includes(symbolCaptured)){
+			square.symbol = computeEvolution(symbolClicked, symbolCaptured)
+			stateFunctions.removeCaptured(symbolCaptured, square.player)
+		}
+	})
+
+	return someBoard
+}
 //
-exports.removeCaptured = removeCaptured
 exports.computeEvolution = computeEvolution
+exports
