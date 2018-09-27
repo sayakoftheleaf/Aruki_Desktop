@@ -4,11 +4,9 @@
 // Module only contains pure functions and makes no changes to game state
 //
 
-// 
 // Given a piece's symbol, row and col in a board, 
 // returns all of it's possible moves
 // FIXME: Check if LR and GR are behaving appopriately
-// 
 
 const boardFunctions = require('./board.js')
 
@@ -24,11 +22,11 @@ function isNotBlockedSquare(row, col, tempRow, tempCol, someBoard) {
 
 // Returns the moves given the symbol of a piece, it's position in the board
 // and the board
-function computeMoves(symb, r, c, someBoard) {
+function computeMoves (symb, r, c, someBoard) {
   let player = someBoard[r][c].player
 
-  if (symb === "K") return computeKingMoves(r, c, player, someBoard)
-  else if (symb.includes("J")) return computeJesterMoves(r, c, player, someBoard)
+  if (symb === 'K') return computeKingMoves(r, c, player, someBoard)
+  else if (symb.includes('J')) return computeJesterMoves(r, c, player, someBoard)
   else if (symb === "GR") {
     return computeGreaterRiverMoves(r, c, player, someBoard)
   }
@@ -49,8 +47,7 @@ function computeMoves(symb, r, c, someBoard) {
 }
 
 // Checks if a move is a valid King move
-function isValidKingMove(row, col, tempRowow, tempColol, possibleMoves, player, someBoard) {
-
+function isValidKingMove (row, col, tempRowow, tempColol, possibleMoves, player, someBoard) {
   if (boardFunctions.withinBoard(tempRowow, tempColol)) {
     if (isNotBlockedSquare(row, col, tempRowow, tempColol, someBoard)) {
       let move = {
@@ -66,7 +63,7 @@ function isValidKingMove(row, col, tempRowow, tempColol, possibleMoves, player, 
 
 // Finds all the possible moves of a King from a given
 // row and column and board position
-function computeKingMoves(row, col, player, someBoard) {
+function computeKingMoves (row, col, player, someBoard) {
   let possibleMoves = [], tempRowow, tempColol
 
   //case 1
@@ -113,8 +110,7 @@ function computeKingMoves(row, col, player, someBoard) {
 }
 
 // Computes the movement of pawns
-function computePawnMoves(row, col, player, someBoard) {
-
+function computePawnMoves (row, col, player, someBoard) {
   let possibleMoves = []
   let move = {}
 
@@ -130,11 +126,135 @@ function computePawnMoves(row, col, player, someBoard) {
   return possibleMoves
 }
 
+// Helper function that computes whether a move is a valid move for a Rook
+// or an Arrow
+//
+function rookArrowCheck (tempRow, tempCol, player, someBoard) {
+  let thisPlayer = someBoard[tempRow][tempCol].player
 
-// TODO: check this
-function findJesterMoves(row, col, tempRow, tempCol, someBoard) {
+  // if flag is false, it means that some earlier square was blocked - EXIT
+  // if the move is not withinBoard - EXIT
+  if (!(boardFunctions.withinBoard(tempRow, tempCol))) return false
+  if (thisPlayer === player) return false
 
-  let isWithinBoard = withinBoard(tempRow, tempCol)
+  // if the square is blocked, then you cannot go any further than that square
+  return (thisPlayer === 0)
+}
+
+// Returns all the possible moves for a Rook given the player it belongs to,
+// it's position and the board
+// TODO: check if this is working properly. Make significant changes
+function computeRookMoves (row, col, player, someBoard) {
+  let possibleMoves = []
+  let tempRow
+  let tempCol
+
+  // saves the previous state of the function call
+  let ascendingRowFlag = true
+  let ascendingColFlag = true
+  let descendingRowFlag = true
+  let descendingColFlag = true
+
+  // Running through all the possible moves and then determing which one of
+  // those are valid
+  for (let counter = 1; counter < 12; counter++) {
+    if (ascendingColFlag) {
+      tempRow = row
+      tempCol = col + counter
+
+      rookArrowCheck(tempRow, tempCol, player, someBoard)
+        ? possibleMoves.push({row: tempRow, col: tempCol})
+        : ascendingColFlag = false
+    }
+
+    if (ascendingRowFlag) {
+      tempRow = row + counter
+      tempCol = col
+
+      rookArrowCheck(tempRow, tempCol, player, someBoard)
+        ? possibleMoves.push({row: tempRow, col: tempCol})
+        : ascendingRowFlag = false
+    }
+
+    if (descendingRowFlag) {
+      tempRow = row - counter
+      tempCol = col
+
+      rookArrowCheck(tempRow, tempCol, player, someBoard)
+        ? possibleMoves.push({row: tempRow, col: tempCol})
+        : descendingRowFlag = false
+    }
+
+    if (descendingColFlag) {
+      tempRow = row
+      tempCol = col - counter
+
+      rookArrowCheck(tempRow, tempCol, player, someBoard)
+        ? possibleMoves.push({row: tempRow, col: tempCol})
+        : descendingColFlag = false
+    }
+  }
+  return possibleMoves
+}
+
+// TODO: check if this is working properly. Same structure as the rook function
+function computeArrowMoves (row, col, player, someBoard) {
+  let possibleMoves = []
+  let tempRow
+  let tempCol
+
+  // saves the previous state of the function call
+  let rightTopFlag = true
+  let rightBottomFlag = true
+  let leftTopFlag = true
+  let leftBottomFlag = true
+
+  // Running through all the possible moves and then determing which one of
+  // those are valid
+  for (let counter = 1; counter < 12; counter++) {
+    if (rightTopFlag) {
+      tempRow = row + counter
+      tempCol = col + counter
+
+      rookArrowCheck(tempRow, tempCol, player, someBoard)
+        ? possibleMoves.push({row: tempRow, col: tempCol})
+        : rightTopFlag = false
+    }
+
+    if (rightBottomFlag) {
+      tempRow = row + counter
+      tempCol = col - counter
+
+      rookArrowCheck(tempRow, tempCol, player, someBoard)
+        ? possibleMoves.push({row: tempRow, col: tempCol})
+        : rightBottomFlag = false
+    }
+
+    if (leftTopFlag) {
+      tempRow = row - counter
+      tempCol = col + counter
+
+      rookArrowCheck(tempRow, tempCol, player, someBoard)
+        ? possibleMoves.push({row: tempRow, col: tempCol})
+        : leftTopFlag = false
+    }
+
+    if (leftBottomFlag) {
+      tempRow = row - counter
+      tempCol = col - counter
+
+      rookArrowCheck(tempRow, tempCol, player, someBoard)
+        ? possibleMoves.push({row: tempRow, col: tempCol})
+        : leftBottomFlag = false
+    }
+  }
+  return possibleMoves
+}
+
+// TODO: write this
+function findJesterMoves (row, col, tempRow, tempCol, someBoard) {
+
+  let isWithinBoard = boardFunctions.withinBoard(tempRow, tempCol)
   let player = someBoard[tempRow][tempCol].player
 
   // no squares can be found on this round, so return an empty array
@@ -147,64 +267,63 @@ function findJesterMoves(row, col, tempRow, tempCol, someBoard) {
   else if (symbol === "LR" || symbol === "GR") return computeKingMoves(row, col, someBoard[row][col].player, someBoard)
 }
 
-function computeJesterMoves(row, col, player, someBoard){
+function computeJesterMoves (row, col, player, someBoard) {
   let possibleMoves = []
   let tempRow, tempCol
 
-	//Square to the right
-	tempRow = row + 1
-	tempCol = col
+  //Square to the right
+  tempRow = row + 1
+  tempCol = col
 
   possibleMoves = possibleMoves.concat(findJesterMoves(row, col, tempRow, tempCol, someBoard))
 
-	//Square to the left
-	tempRow = row - 1
-	tempCol = col
-
-	possibleMoves = possibleMoves.concat(findJesterMoves(row, col, tempRow, tempCol, someBoard))
-
-	//Square to the top right diagonal
-	tempRow = row + 1
-	tempCol = col - 1
-
-	possibleMoves = possibleMoves.concat(findJesterMoves(row, col, tempRow, tempCol, someBoard))
-
-	//Square to the bottom right diagonal
-	tempRow = row + 1
-	tempCol = col + 1
+  //Square to the left
+  tempRow = row - 1
+  tempCol = col
 
   possibleMoves = possibleMoves.concat(findJesterMoves(row, col, tempRow, tempCol, someBoard))
 
-	//Square to the bottom left diagonal
-	tempRow = row - 1
-	tempCol = col + 1
-
-	possibleMoves = possibleMoves.concat(findJesterMoves(row, col, tempRow, tempCol, someBoard))
-
-	//Square to the right top right diagonal
-  tempRow = row - 1	
+  //Square to the top right diagonal
+  tempRow = row + 1
   tempCol = col - 1
-  
-	possibleMoves = possibleMoves.concat(findJesterMoves(r, c, tempRow, tempCol, someBoard))
 
-	//Square to the bottom
-	tempRow = row
-	tempCol = col + 1
+  possibleMoves = possibleMoves.concat(findJesterMoves(row, col, tempRow, tempCol, someBoard))
 
-	possibleMoves = possibleMoves.concat(findJesterMoves(r, c, tempRow, tempCol, someBoard))
+  //Square to the bottom right diagonal
+  tempRow = row + 1
+  tempCol = col + 1
 
-	//Square to the top
-	tempRow = row
-	tempCol = col - 1
+  possibleMoves = possibleMoves.concat(findJesterMoves(row, col, tempRow, tempCol, someBoard))
 
-	possibleMoves = possibleMoves.concat(findJesterMoves(r, c, tempRow, tempCol, someBoard))
+  //Square to the bottom left diagonal
+  tempRow = row - 1
+  tempCol = col + 1
 
-	return possibleMoves
+  possibleMoves = possibleMoves.concat(findJesterMoves(row, col, tempRow, tempCol, someBoard))
+
+  //Square to the right top right diagonal
+  tempRow = row - 1
+  tempCol = col - 1
+
+  possibleMoves = possibleMoves.concat(findJesterMoves(r, c, tempRow, tempCol, someBoard))
+
+  //Square to the bottom
+  tempRow = row
+  tempCol = col + 1
+
+  possibleMoves = possibleMoves.concat(findJesterMoves(r, c, tempRow, tempCol, someBoard))
+
+  //Square to the top
+  tempRow = row
+  tempCol = col - 1
+
+  possibleMoves = possibleMoves.concat(findJesterMoves(r, c, tempRow, tempCol, someBoard))
+
+  return possibleMoves
 }
 
-function computeMinisterMoves(row, col, player, someBoard){
+function computeMinisterMoves (row, col, player, someBoard) {
   let possibleMoves = []
-  let tempRow, tempCol
 
   possibleMoves = computeRookMoves(row, col, player, someBoard)
   possibleMoves = possibleMoves.concat(computeArrowMoves(row, col, player, someBoard))
@@ -212,13 +331,7 @@ function computeMinisterMoves(row, col, player, someBoard){
   return possibleMoves
 }
 
-// function rookArrowCheck(tempRow, tempCol, possibleMoves, player, someBoard, flag){
-//   if (!(withinBoard(tempRow, tempCol) && flag)) return flag
 
-//   let thisPlayer = someBoard[tempRow][tempCol].player
-//   if (thisPlayer === player) return false
-//   if (thisPlayer === 0) 
 
-// }
 // exports
 exports.computeMoves = computeMoves

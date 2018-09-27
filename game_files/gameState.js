@@ -12,14 +12,14 @@ var gameState = {
     player1: [],
     player2: []
   },
-  mainBoard: [],
+  mainBoard: []
 }
 
 // Utility functions to Interact with the Game State
 
 exports.deepCopy = (anArr) => Array.from(anArr)
 exports.printGameState = () => console.log(gameState)
-exports.pushSquares = (row, col, arr, player) =>  {
+exports.pushSquares = (row, col, arr, player) => {
   arr.push({
     row: row,
     col: col
