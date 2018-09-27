@@ -1,4 +1,3 @@
-//
 // MODULE : Piece Movement module
 // Exports a number of functions pertaining to the potential movement of pieces
 // Module only contains pure functions and makes no changes to game state
@@ -47,6 +46,7 @@ function computeMoves (symb, r, c, someBoard) {
 }
 
 // Checks if a move is a valid King move
+// TODO : make this a pure function?
 function isValidKingMove (row, col, tempRowow, tempColol, possibleMoves, player, someBoard) {
   if (boardFunctions.withinBoard(tempRowow, tempColol)) {
     if (isNotBlockedSquare(row, col, tempRowow, tempColol, someBoard)) {
@@ -109,7 +109,131 @@ function computeKingMoves (row, col, player, someBoard) {
   return possibleMoves
 }
 
-// Computes the movement of pawns
+function computePikeMoves (row, col, player, someBoard) {
+
+	let possibleMoves = []
+  let tempRow
+  let tempCol
+
+	//case 1
+	tempRow = row + 1
+	tempCol = col + 1
+	isValidKingMove(row, col, tempRow, tempCol, possibleMoves, player, someBoard)
+
+	//case 2
+	tempRow = row - 1
+	tempCol = col - 1
+	isValidKingMove(row, col, tempRow, tempCol, possibleMoves, player, someBoard)
+
+	//case  3
+	tempRow = row - 1
+	tempCol = col + 1
+	isValidKingMove(row, col, tempRow, tempCol, possibleMoves, player, someBoard)
+
+	//case 4
+	tempRow = row + 1
+	tempCol = col - 1
+	isValidKingMove(row, col, tempRow, tempCol, possibleMoves, player, someBoard)
+
+	return possibleMoves
+}
+
+function computeGreaterPikeMoves (row, col, player, someBoard) {
+
+	let possibleMoves = []
+  let tempRow
+  let tempCol
+
+	//case 1
+	tempRow = row + 2
+	tempCol = col + 2
+	isValidKingMove(row, col, tempRow, tempCol, possibleMoves, player, someBoard)
+
+	//case 2
+	tempRow = row - 2
+	tempCol = col - 2
+	isValidKingMove(row, col, tempRow, tempCol, possibleMoves, player, someBoard)
+
+	//case  3
+	tempRow = row - 2
+	tempCol = col + 2
+	isValidKingMove(row, col, tempRow, tempCol, possibleMoves, player, someBoard)
+
+	//case 4
+	tempRow = row + 2
+	tempCol = col - 2
+	isValidKingMove(row, col, tempRow, tempCol, possibleMoves, player, someBoard)
+
+	return possibleMoves.concat(computePikeMoves(row, col, player, someBoard))
+}
+
+function computeLanceMoves (row, col, player, someBoard) {
+
+	let possibleMoves = []
+  let tempRow
+  let tempCol
+
+	//case 1
+	tempRow = row + 1
+	tempCol = col
+	isValidKingMove(row, col, tempRow, tempCol, possibleMoves, player, someBoard)
+
+	//case 2
+	tempRow = row - 1
+	tempCol = col
+	isValidKingMove(row, col, tempRow, tempCol, possibleMoves, player, someBoard)
+
+	//case  3
+	tempRow = row 
+	tempCol = col + 1
+	isValidKingMove(row, col, tempRow, tempCol, possibleMoves, player, someBoard)
+
+	//case 4
+	tempRow = row
+	tempCol = col - 1
+	isValidKingMove(row, col, tempRow, tempCol, possibleMoves, player, someBoard)
+
+	return possibleMoves
+}
+
+function computeGreaterLanceMoves (row, col, player, someBoard) {
+
+	let possibleMoves = []
+  let tempRow
+  let tempCol
+
+	//case 1
+	tempRow = row + 2
+	tempCol = col
+	isValidKingMove(row, col, tempRow, tempCol, possibleMoves, player, someBoard)
+
+	//case 2
+	tempRow = row - 2
+	tempCol = col
+	isValidKingMove(row, col, tempRow, tempCol, possibleMoves, player, someBoard)
+
+	//case  3
+	tempRow = row 
+	tempCol = col + 2
+	isValidKingMove(row, col, tempRow, tempCol, possibleMoves, player, someBoard)
+
+	//case 4
+	tempRow = row
+	tempCol = col - 2
+	isValidKingMove(row, col, tempRow, tempCol, possibleMoves, player, someBoard)
+
+	return possibleMoves.concat(computeLanceMoves(row, col, player, someBoard))
+}
+
+function computeSwordMoves(row, col, player, someBoard){
+  return computeLanceMoves(row, col, player, someBoard).concat(computePikeMoves(row, col, player, someBoard))
+}
+
+function computeLongSwordMoves(row, col, player, someBoard){
+  return computeGreaterLanceMoves(row, col, player, someBoard).concat(computeGreaterPikeMoves(row, col, player, someBoard))
+}
+
+
 function computePawnMoves (row, col, player, someBoard) {
   let possibleMoves = []
   let move = {}
@@ -124,6 +248,35 @@ function computePawnMoves (row, col, player, someBoard) {
   if (isBlocked && isWithinBoard) possibleMoves.push(move)
 
   return possibleMoves
+}
+
+function computeJavelinMoves (row, col, player, someBoard) {
+
+	let possibleMoves = []
+  let tempRow
+  let tempCol
+
+	//case 1
+	tempRow = row - 1
+	tempCol = col
+	isValidKingMove(row, col, tempRow, tempCol, possibleMoves, player, someBoard)
+
+	//case 2
+	tempRow = row - 2
+	tempCol = col
+	isValidKingMove(row, col, tempRow, tempCol, possibleMoves, player, someBoard)
+
+	//case  3
+	tempRow = row + 1
+	tempCol = col
+	isValidKingMove(row, col, tempRow, tempCol, possibleMoves, player, someBoard)
+
+	//case 4
+	tempRow = row + 2
+	tempCol = col
+	isValidKingMove(row, col, tempRow, tempCol, possibleMoves, player, someBoard)
+
+	return possibleMoves
 }
 
 // Helper function that computes whether a move is a valid move for a Rook
@@ -141,9 +294,6 @@ function rookArrowCheck (tempRow, tempCol, player, someBoard) {
   return (thisPlayer === 0)
 }
 
-// Returns all the possible moves for a Rook given the player it belongs to,
-// it's position and the board
-// TODO: check if this is working properly. Make significant changes
 function computeRookMoves (row, col, player, someBoard) {
   let possibleMoves = []
   let tempRow
@@ -197,7 +347,6 @@ function computeRookMoves (row, col, player, someBoard) {
   return possibleMoves
 }
 
-// TODO: check if this is working properly. Same structure as the rook function
 function computeArrowMoves (row, col, player, someBoard) {
   let possibleMoves = []
   let tempRow
@@ -249,6 +398,13 @@ function computeArrowMoves (row, col, player, someBoard) {
     }
   }
   return possibleMoves
+}
+
+function computeMinisterMoves (row, col, player, someBoard) {
+  let rookMoves = computeRookMoves(row, col, player, someBoard)
+  let arrowMoves = computeArrowMoves(row, col, player, someBoard)
+
+  return rookMoves.concat(arrowMoves)
 }
 
 // TODO: write this
@@ -322,14 +478,7 @@ function computeJesterMoves (row, col, player, someBoard) {
   return possibleMoves
 }
 
-function computeMinisterMoves (row, col, player, someBoard) {
-  let possibleMoves = []
 
-  possibleMoves = computeRookMoves(row, col, player, someBoard)
-  possibleMoves = possibleMoves.concat(computeArrowMoves(row, col, player, someBoard))
-
-  return possibleMoves
-}
 
 
 
