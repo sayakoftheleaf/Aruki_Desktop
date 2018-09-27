@@ -51,4 +51,4 @@ function evolvePiece(row, col, symbolClicked, symbolCaptured, someBoard) {
 }
 //
 exports.computeEvolution = computeEvolution
-exports
+exports.evolvePiece = evolvePiece
