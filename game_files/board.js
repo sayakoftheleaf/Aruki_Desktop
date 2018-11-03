@@ -35,7 +35,7 @@ function initBoard (someBoard) {
   someBoard[0][11].symbol = 'R2'
   someBoard[11][11].symbol = 'R2'
 
-  // ArsomeBoards
+  // Arrows
   someBoard[0][1].symbol = 'A1'
   someBoard[0][10].symbol = 'A2'
   someBoard[11][1].symbol = 'A1'
