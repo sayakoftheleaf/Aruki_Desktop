@@ -1,3 +1,14 @@
+// ----------------------------------------------------------------------
+//                        PIECE EVOLUTION MODULE
+// ----------------------------------------------------------------------
+
+// ---------------------------------------------------------------------
+//                        #  MODULE CHARACTERISTICS #
+//
+// Only contains pure functions and makes no changes to game state
+//
+// ---------------------------------------------------------------------
+
 
 const stateFunctions = require('./gameState.js')
 
@@ -29,9 +40,19 @@ function computeEvolution(symbolClicked, symbolCaptured) {
 	return symbolClicked
 }
 
-// given a board, a piece's position and the symbol, and the symbol of the piece
-// from the captured list it's intending to evolve with, determines whether the
-// capture is valid or not and returns the appropriately modified board.
+// ----------------------------------------------------------------------------
+// INPUT : - A Board
+// 				 - A piece's position (row and column) and symbol
+//  			 - Symbol of the piece clicked from the captured list
+//
+// PROCESSING: - Determines whether evolution is valid. If valid changes
+//               the piece in the board into the evolved piece and deletes
+//               the corresponding piece from the captured list. If not valid
+//               leaves the board unchanged.
+//
+// OUTPUT: - The board passed in arguments (changed or unchanged)
+// ----------------------------------------------------------------------------
+
 function evolvePiece(row, col, symbolClicked, symbolCaptured, someBoard) {
 	let square = someBoard[row][col]
 	if (!(square.symbol.includes(symbolClicked))) return someBoard

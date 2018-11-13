@@ -1,8 +1,10 @@
+// -----------------------------------------------------------
+//                     # GAME ENGINE MODULE #
 //
-// MODULE : Main Game Engine
 // The Main Game Engine that creates and runs the game
 // The only Module that makes changes to the game state
 //
+// -----------------------------------------------------------
 
 // TODO: flip player movement after every turn
 
@@ -10,17 +12,14 @@ const boardFunctions = require ('./board.js')
 const playerMoveFunctions = require ('./playerMove.js')
 const evolutionFunctions = require ('./evolutionMechanics.js')
 const testFunctions = require ('./testMethods.js')
-
-// Importing the Global State Object, and some utility functions
+const gameState = require('./gameState.js')
 
 // TODO: you shouldn't need this really
 // because you are going to work with mutation functions
 // const gameState = require('./gameState.js').gameState 
 
-const stateFunctions = require('./gameState.js')
-
 // Prints the board
-let mainBoard = stateFunctions.getMainBoard()
+let mainBoard = gameState.getMainBoard()
 
 // console.log(testFunctions.stringBoard(dummyBoard, 'symbol'))
 // console.log(testFunctions.stringBoard(dummyBoard, 'player'))
@@ -28,7 +27,7 @@ let mainBoard = stateFunctions.getMainBoard()
 function setUpStartState () {
     let freshBoard = boardFunctions.setUpFreshBoard()
     freshBoard = boardFunctions.initBoard(freshBoard)
-    stateFunctions.setMainBoard(freshBoard)
+    gameState.setMainBoard(freshBoard)
 }
 
 // TODO: on the front end side, extract the row and the column
@@ -39,8 +38,8 @@ function setUpStartState () {
 
 // FIXME: Please figure this function out
 // function onClickChangeState(row, col, isEvolutionMove = false, evolutionPiece) {
-//     let playerCurrentlyMoving = stateFunctions.getPlayerMove()
-//     let localBoard = boardFunctions.copyBoard(stateFunctions.getMainBoard())
+//     let playerCurrentlyMoving = gameState.getPlayerMove()
+//     let localBoard = boardFunctions.copyBoard(gameState.getMainBoard())
 //     let currentSquare = localBoard[row][col]
 
 //     if (isEvolutionMove){

@@ -1,19 +1,18 @@
+// ----------------------------------------------------------------------       
+//                 # BOARD MANIPULATION MODULE #
 //
-// MODULE : Board Manipulation Functions
-// Exports a number of functions related to board manipulation
-// Module only contains pure functions and makes no changes to game state
+// Offers a number of functions related to the setting up and
+// manipulation of the overall state of the game board
 //
+// ----------------------------------------------------------------------
 
-// Sets up the default empty sqaure that has no pieces on it
-//
-// NOTE (technical) : This cannot be annoymous because one of
-// the local functions uses it.
+// Sets up the default empty sqaure
 function defaultSquare () {
   return {
     player: 0, symbol: '#'
   }
 }
-
+-
 // Creates a new Board with all defaultSquares in them
 function setUpFreshBoard () {
   let newBoard = []
@@ -27,7 +26,8 @@ function setUpFreshBoard () {
   return newBoard
 }
 
-// Initializes a board
+// Initializes an empty board with the pieces in their
+// starting position
 function initBoard (someBoard) {
   // Rooks
   someBoard[0][0].symbol = 'R1'
@@ -91,17 +91,26 @@ function copyBoard (originalBoard) {
 
 // Checks whether a move is within the Board
 function withinBoard (someRow, someCol) {
-  return ((someRow <= 11) && (someRow >= 0))
-    ? ((someCol <= 11) && (someCol >= 0))
-    : false
+  if ((someRow <= 11) && (someRow >= 0)) { 
+    // if rows are in range, return value depends on columns being in range
+    return ((someCol <= 11) && (someCol >= 0))
+  } else {
+    return false
+  }
 }
 
 // Finds the position of a piece of a side and
 // returns an object comprised of the row and column.
 function positionOf (symbol, someBoard, player) {
+
+  // TODO: see if there are better ways of doing this
+  // This is (n^2) complexity
   for (let a = 0; a <= 11; a++) {
     for (let b = 0; b <= 11; b++) {
-      if (someBoard[a][b].symbol.includes(symbol) && player === someBoard[a][b].player) return { row: a, col: b }
+      if ( someBoard[a][b].symbol.includes(symbol) && 
+           player === someBoard[a][b].player ) {
+             return { row: a, col: b }
+           }
     }
   }
 }
@@ -114,7 +123,10 @@ function isNotBlockedSquare (someRow, someCol, tempRow, tempCol, someBoard) {
   return (currentPlayer !== squareOccupant)
 }
 
-// exports
+// --------------------------------------------------------------------------
+//                               EXPORTS
+// --------------------------------------------------------------------------
+
 exports.defaultSquare = defaultSquare
 exports.setUpFreshBoard = setUpFreshBoard
 exports.initBoard = initBoard
