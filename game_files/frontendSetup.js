@@ -75,28 +75,18 @@ function drawPieces(classString, symbol, player){
       break;
   
     default:
-      if (symbol.includes(`Z`)) {
-        $(`${classString} .Piece`).css({ "background-position":`-32px -32px`});
-      } else if (symbol.includes(`A`)) {
-        $(`${classString} .Piece`).css({ "background-position":`-128px 0`});
-      } else if (symbol.includes(`R`)) {
-        $(`${classString} .Piece`).css({ "background-position":`-160px -32px`});
-      } else if (symbol.includes(`PP`)){
-        $(`${classString} .Piece`).css({ "background-position":`-64px 0`});
-      } else if (symbol.includes(`PP`)){
-        $(`${classString} .Piece`).css({ "background-position":`-96px 0`});
-      } else if (symbol.includes(`LL`)){
-        $(`${classString} .Piece`).css({ "background-position":`-192px 0`});
-      } else if (symbol.includes(`L`)){
-        $(`${classString} .Piece`).css({ "background-position":`-224px 0`});
-      } else if (symbol.includes(`SS`)){
+      if (symbol.includes(`Z`)) $(`${classString} .Piece`).css({ "background-position":`-32px -32px`});
+      else if (symbol.includes(`A`)) $(`${classString} .Piece`).css({ "background-position":`-128px 0`});
+      else if (symbol.includes(`R`)) $(`${classString} .Piece`).css({ "background-position":`-160px -32px`});
+      else if (symbol.includes(`PP`)) $(`${classString} .Piece`).css({ "background-position":`-64px 0`});
+      else if (symbol.includes(`PP`)) $(`${classString} .Piece`).css({ "background-position":`-96px 0`});
+      else if (symbol.includes(`LL`)) $(`${classString} .Piece`).css({ "background-position":`-192px 0`});
+      else if (symbol.includes(`L`)) $(`${classString} .Piece`).css({ "background-position":`-224px 0`});
+      else if (symbol.includes(`SS`)){
         // FIXME: This is definitely wrong because SS and S symbol is the same
         $(`${classString} .Piece`).css({ "background-position":`0 -32px`});
-      } else if (symbol.includes(`S`)){
-        $(`${classString} .Piece`).css({ "background-position":`0 -32px`});
-      } else if (symbol.includes(`N`)){
-        $(`${classString} .Piece`).css({ "background-position":`-128px -32px`});
-      }
+      } else if (symbol.includes(`S`)) $(`${classString} .Piece`).css({ "background-position":`0 -32px`});
+      else if (symbol.includes(`N`)) $(`${classString} .Piece`).css({ "background-position":`-128px -32px`});
       break;
   }
 
