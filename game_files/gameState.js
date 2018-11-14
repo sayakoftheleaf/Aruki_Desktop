@@ -12,7 +12,14 @@ var gameState = {
     player1: [],
     player2: []
   },
-  mainBoard: []
+  mainBoard: [],
+  selectedPiece: {
+    symbol: `#`,
+    row: -1,
+    col: -1
+  },
+  possibleMoves: [],
+
 }
 
 // Utility functions to Interact with the Game State
@@ -29,25 +36,28 @@ exports.pushSquares = (row, col, arr, player) => {
 }
 
 // Get functions
-exports.getPlayerMove = () => gameState.playerMove
-exports.getPresentMove = () => gameState.presentMove
-exports.getMainBoard = () => gameState.mainBoard
-exports.getCapturedPlayer1 = () => gameState.capturedPieces.player1
-exports.getCapturedPlayer2 = () => gameState.capturedPieces.player2
+exports.getPlayerMove = () => gameState.playerMove;
+exports.getPresentMove = () => gameState.presentMove;
+exports.getMainBoard = () => gameState.mainBoard;
+exports.getCapturedPlayer1 = () => gameState.capturedPieces.player1;
+exports.getCapturedPlayer2 = () => gameState.capturedPieces.player2;
+exports.getSelectedPiece = () => gameState.selectedPiece;
+exports.getPossibleMoves = () => gameState.possibleMoves;
 
 // Set functions
-exports.setPlayerMove = (newMove) => { gameState.playerMove = newMove }
-exports.setPresentMove = (newMove) => { gameState.presentMove = newMove }
-exports.setMainBoard = (someBoard) => { gameState.mainBoard = someBoard }
+exports.setPlayerMove = (newMove) => { gameState.playerMove = newMove; }
+exports.setPresentMove = (newMove) => { gameState.presentMove = newMove; }
+exports.setMainBoard = (someBoard) => { gameState.mainBoard = someBoard; }
 exports.setCapturedPlayer1 = (captured) => {
-  gameState.capturedPieces.player1.push(captured)
+  gameState.capturedPieces.player1.push(captured);
 }
 exports.setCapturedPlayer2 = (captured) => {
-  gameState.capturedPieces.player2.push(captured)
+  gameState.capturedPieces.player2.push(captured);
 }
 exports.removeCaptured = (symbol, player) => {
-  let captured =
-  (player === 1) ? gameState.capturedPieces.player1 : gameState.capturedPieces.player2
+  let captured = (player === 1) ? 
+    gameState.capturedPieces.player1 : 
+    gameState.capturedPieces.player2;
 
   for(let a = 0; a < captured.length; a++){
 		if (captured[a].includes(symbol)){
@@ -56,5 +66,11 @@ exports.removeCaptured = (symbol, player) => {
 		}
 	}
 }
+exports.setSelectedPiece = (selectedPiece) => { 
+  gameState.selectedPiece = selectedPiece;
+}
+exports.setPossibleMoves = (possibleMoves) => {
+  gameState.possibleMoves = possibleMoves;
+}
 
-exports.gameState = gameState
+exports.gameState = gameState;

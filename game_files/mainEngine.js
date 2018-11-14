@@ -8,30 +8,36 @@
 
 // TODO: flip player movement after every turn
 
-const boardFunctions = require ('./board.js')
-const playerMoveFunctions = require ('./playerMove.js')
-const evolutionFunctions = require ('./evolutionMechanics.js')
-const testFunctions = require ('./testMethods.js')
-const gameState = require('./gameState.js')
+const boardFunctions = require ('./board.js');
+const playerMoveFunctions = require ('./playerMove.js');
+const evolutionFunctions = require ('./evolutionMechanics.js');
+const testFunctions = require ('./testMethods.js');
+const gameState = require('./gameState.js');
+const frontendEngine = require('./frontendEngine.js');
 
 // TODO: you shouldn't need this really
 // because you are going to work with mutation functions
 // const gameState = require('./gameState.js').gameState 
 
 // Prints the board
-let mainBoard = gameState.getMainBoard()
+let mainBoard = gameState.getMainBoard();
 
 // console.log(testFunctions.stringBoard(dummyBoard, 'symbol'))
 // console.log(testFunctions.stringBoard(dummyBoard, 'player'))
 
 function setUpStartState () {
-    let freshBoard = boardFunctions.setUpFreshBoard()
-    freshBoard = boardFunctions.initBoard(freshBoard)
-    gameState.setMainBoard(freshBoard)
+  let freshBoard = boardFunctions.setUpFreshBoard();
+  freshBoard = boardFunctions.initBoard(freshBoard);
+  gameState.setMainBoard(freshBoard);
+}
+
+function gameEngine() {
+  
 }
 
 // TODO: on the front end side, extract the row and the column
 // of the clicked square and send it here
+
 // Turn the isEvolutionMove flag to true if the player had previously
 // clicked on the captured pieces stack, and send that piece as the fourth
 // element

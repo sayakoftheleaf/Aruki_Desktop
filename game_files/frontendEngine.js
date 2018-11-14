@@ -12,7 +12,8 @@ function setupFrontEndOfBoard(){
 		$(`.Row${row}`).css({"display":"block",
 			"margin" : "0px",
     });
-    
+		
+		// Adding 12 columns to every Row
 		for (let col = 0; col < 12; col++){
 			$(`.Row${row}`).append(`<div class=\"SquareCol${col}\"></div>`);
 		}
@@ -27,8 +28,6 @@ function extractRow (square) {
 function extractColumn (square) {
   return (square.attr('class')).substring(10)
 }
-
-
 
 
 

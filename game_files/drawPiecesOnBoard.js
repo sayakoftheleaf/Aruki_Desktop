@@ -70,3 +70,7 @@ function drawPieces(classString, symbol, player){
   }
 }
 
+exports.putPiecesOnFrontEnd = putPiecesOnFrontEnd;
+
+// TODO: Ideally this shouldn't need to be exported 
+exports.drawPieces = drawPieces;
