@@ -1,3 +1,6 @@
+const gameState = require('./gameState.js');
+const evolutionMechanics = require('./evolutionMechanics.js');
+const flipPlayerMove = require('./gameMechanics.js');
 
 // Draws the initial board on screen
 function setupFrontEndOfBoard(){
@@ -20,15 +23,63 @@ function setupFrontEndOfBoard(){
 	}
 }
 
-
+// extract the Row from the parent html class definition of a Square
+// and convert it into a number
 function extractRow (square) {
-	return (square.parent().attr('class')).substring(3);
+	return Number((square.parent().attr('class')).substring(3));
 }
 
+// extract the Column from the html class definition of a Square
+// and convert it into a number
 function extractColumn (square) {
-  return (square.attr('class')).substring(10)
+  return Number((square.attr('class')).substring(10));
 }
 
+
+function highlightPossibleMoves (Square, selectedPiece, possibleMoves) {
+	let row = extractRow(Square);
+	let column = extractColumn(Square);
+	let clickedPieceFromCapturedTray = 
+		gameState.getClickedPieceFromCapturedTray();
+	let mainBoard = gameState.getMainBoard();
+
+	let pieceSymbol = mainBoard[row][column].symbol;
+	let playerWhosePieceWasClicked = mainBoard[row][column].player;
+	let currentPlayer = gameState.getPlayerMove();
+
+	// TODO: turn this into a separate function
+	// The current version of this function is way too long
+
+	// if a piece from the captured tray was clicked
+	if (clickedPieceFromCapturedTray !== `#`) {
+		let evolvedSymbol = evolutionMechanics.computeEvolution(
+				clickedPieceFromCapturedTray, pieceSymbol);
+
+		// If the evolution was valid (i.e. didn't return the original Piece)	
+		if (evolvedSymbol !== pieceSymbol) {
+
+			// This prevents the bug where a player was able
+			// to evolve opponent's pieces
+			if (playerWhosePieceWasClicked === currentPlayer) {
+
+				// TODO: make sure this is passed by reference
+				// Should be - because it's an object value
+				pieceSymbol = evolvedSymbol;
+
+				gameState.removeFromCapturedTray (
+					clickedPieceFromCapturedTray, currentPlayer);
+				gameState.setClickedPieceFromCapturedTray(`#`);
+				gameMechanics.flipPlayerMove(currentPlayer);
+				
+				
+			}
+		}
+
+	}
+	
+	
+
+}
 
 
 

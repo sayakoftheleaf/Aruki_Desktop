@@ -6,6 +6,8 @@
 
 // The initial game state when the game starts
 var gameState = {
+
+  // TODO: what's the difference between presentMove and playerMove
   presentMove: 1,
   playerMove: 1,
   capturedPieces: {
@@ -19,6 +21,7 @@ var gameState = {
     col: -1
   },
   possibleMoves: [],
+  clickedPieceFromCapturedTray: '#'
 
 }
 
@@ -37,16 +40,17 @@ exports.pushSquares = (row, col, arr, player) => {
 
 // Get functions
 exports.getPlayerMove = () => gameState.playerMove;
-exports.getPresentMove = () => gameState.presentMove;
+// exports.getPresentMove = () => gameState.presentMove;
 exports.getMainBoard = () => gameState.mainBoard;
 exports.getCapturedPlayer1 = () => gameState.capturedPieces.player1;
 exports.getCapturedPlayer2 = () => gameState.capturedPieces.player2;
 exports.getSelectedPiece = () => gameState.selectedPiece;
 exports.getPossibleMoves = () => gameState.possibleMoves;
+exports.getClickedPieceFromCapturedTray = () => gameState.clickedPieceFromCapturedTray;
 
 // Set functions
 exports.setPlayerMove = (newMove) => { gameState.playerMove = newMove; }
-exports.setPresentMove = (newMove) => { gameState.presentMove = newMove; }
+// exports.setPresentMove = (newMove) => { gameState.presentMove = newMove; }
 exports.setMainBoard = (someBoard) => { gameState.mainBoard = someBoard; }
 exports.setCapturedPlayer1 = (captured) => {
   gameState.capturedPieces.player1.push(captured);
@@ -54,7 +58,7 @@ exports.setCapturedPlayer1 = (captured) => {
 exports.setCapturedPlayer2 = (captured) => {
   gameState.capturedPieces.player2.push(captured);
 }
-exports.removeCaptured = (symbol, player) => {
+exports.removeFromCapturedTray = (symbol, player) => {
   let captured = (player === 1) ? 
     gameState.capturedPieces.player1 : 
     gameState.capturedPieces.player2;
@@ -71,6 +75,9 @@ exports.setSelectedPiece = (selectedPiece) => {
 }
 exports.setPossibleMoves = (possibleMoves) => {
   gameState.possibleMoves = possibleMoves;
+}
+exports.setClickedPieceFromCapturedTray = (clickedPiece) => {
+  gameState.clickedPieceFromCapturedTray = clickedPiece;
 }
 
 exports.gameState = gameState;

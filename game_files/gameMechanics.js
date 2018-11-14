@@ -4,7 +4,7 @@
 // Module only contains pure functions and makes no changes to game state
 //
 
-const stateFunctions = require('./gameState.js')
+const gameState = require('./gameState.js')
 const boardFunctions = require('./board.js')
 
 function checkForCheck(someBoard, player) {
@@ -41,8 +41,8 @@ function makeNonCaptureMove(oldRow, oldCol, newRow, newCol, player, someBoard) {
     newSquare.symbol.includes('MI')
 
     if (!isSpecialCase){
-      if (player === 1) stateFunctions.setCapturedPlayer1(newSquare.symbol)
-      if (player === 2) stateFunctions.setCapturedPlayer2(newSquare.symbol)
+      if (player === 1) gameState.setCapturedPlayer1(newSquare.symbol)
+      if (player === 2) gameState.setCapturedPlayer2(newSquare.symbol)
     }
   }
 
@@ -66,13 +66,23 @@ function makeNonCaptureMove(oldRow, oldCol, newRow, newCol, player, someBoard) {
 // };
 
 
-function.getCapturedPieces(player){
+function getCapturedPieces(player){
   let captured = (player === 1)
-    ? stateFunctions.getCapturedPlayer1()
-    : stateFunctions.getCapturedPlayer2()
+    ? gameState.getCapturedPlayer1()
+    : gameState.getCapturedPlayer2()
 
-  return stateFunctions.deepCopy(captured)
+  return gameState.deepCopy(captured)
+}
+
+function flipPlayerMove () {
+  let playerMove = gameState.getPlayerMove();
+
+  (playerMove === 1) ? 
+    gameState.setPlayerMove(2) :
+    gameState.setPlayerMove(1)
 }
 
 // exports
-exports.makeNonCaptureMove = makeNonCaptureMove
+exports.makeNonCaptureMove = makeNonCaptureMove;
+exports.getCapturedPieces = getCapturedPieces;
+exports.flipPlayerMove = flipPlayerMove;
