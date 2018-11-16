@@ -1,10 +1,10 @@
-// -----------------------------------------------------------
-//                     # GAME ENGINE MODULE #
+// ----------------------------------------------------------------------------
+//                             # GAME ENGINE MODULE #
 //
-// The Main Game Engine that creates and runs the game
-// The only Module that makes changes to the game state
+//       - The Main Game Engine that creates and runs the game -
+//       - The only Module that makes changes to the game state - 
 //
-// -----------------------------------------------------------
+// -----------------------------------------------------------------------------
 
 // TODO: flip player movement after every turn
 

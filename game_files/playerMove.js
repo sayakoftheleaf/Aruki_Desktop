@@ -4,11 +4,8 @@
 // Module only contains pure functions and makes no changes to the game State
 //
 
-// given a move, returns the flipped move
-// used every turn to keep of whose move it is
-function flipPlayerMove(oldMove) {
-  return (oldMove === 1) ? 2 : 1
-}
+// TODO: Rename this module to have a better name
+// Current name is not relevant at all
 
 // checks whether the king is in check in a given board
 // Arguments: the board, and the player whose king it is
@@ -35,8 +32,6 @@ function checkForCheck(someBoard, player) {
   return false
 }
 
-// exports out of this module
-exports.flipPlayerMove = flipPlayerMove
 exports.checkForCheck = checkForCheck
 
 

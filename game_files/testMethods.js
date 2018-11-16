@@ -1,6 +1,4 @@
-
 const boardFunctions = require('./board')
-
 
 // Returns a string representation of the board
 // (without any indication of which pieces belong to which player)

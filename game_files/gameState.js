@@ -22,7 +22,6 @@ var gameState = {
   },
   possibleMoves: [],
   clickedPieceFromCapturedTray: '#'
-
 }
 
 // Utility functions to Interact with the Game State
@@ -73,11 +72,28 @@ exports.removeFromCapturedTray = (symbol, player) => {
 exports.setSelectedPiece = (selectedPiece) => { 
   gameState.selectedPiece = selectedPiece;
 }
+
+exports.setSelectedPieceToDefault = () => {
+  gameState.selectedPiece = {
+    symbol: `#`,
+    row: -1,
+    col: -1
+  }
+}
 exports.setPossibleMoves = (possibleMoves) => {
   gameState.possibleMoves = possibleMoves;
 }
+
+exports.setPossibleMovesToNone = () => {
+  gameState.setPossibleMoves = [];
+}
+
 exports.setClickedPieceFromCapturedTray = (clickedPiece) => {
   gameState.clickedPieceFromCapturedTray = clickedPiece;
+}
+
+exports.setClickedPieceFromCapturedTrayToDefault = () => {
+  gameState.clickedPieceFromCapturedTray = `#`;
 }
 
 exports.gameState = gameState;

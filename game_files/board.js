@@ -99,6 +99,11 @@ function withinBoard (someRow, someCol) {
   }
 }
 
+function changePieceInSquare (someBoard, row, col, newSymbol) {
+  someBoard[row][col] = newSymbol;
+  return someBoard;
+}
+
 // Finds the position of a piece of a side and
 // returns an object comprised of the row and column.
 function positionOf (symbol, someBoard, player) {
@@ -131,7 +136,7 @@ exports.defaultSquare = defaultSquare
 exports.setUpFreshBoard = setUpFreshBoard
 exports.initBoard = initBoard
 exports.copyBoard = copyBoard
-
+exports.changePieceInSquare = changePieceInSquare;
 exports.withinBoard = withinBoard
 exports.positionOf = positionOf
 exports.isNotBlockedSquare = isNotBlockedSquare

@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/sayakoftheleaf/Aruki_Desktop#readme",
   "dependencies": {
-    "electron": "^2.0.10"
+    "electron": "^2.0.10",
+    "eslint": "^5.9.0"
   }
 }
