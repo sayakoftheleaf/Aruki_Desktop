@@ -41,8 +41,8 @@ function makeNonCaptureMove(oldRow, oldCol, newRow, newCol, player, someBoard) {
     newSquare.symbol.includes('MI')
 
     if (!isSpecialCase){
-      if (player === 1) gameState.setCapturedPlayer1(newSquare.symbol)
-      if (player === 2) gameState.setCapturedPlayer2(newSquare.symbol)
+      if (player === 1) gameState.addToCapturedForPlayer1(newSquare.symbol)
+      if (player === 2) gameState.addToCapturedForPlayer2(newSquare.symbol)
     }
   }
 
@@ -68,8 +68,8 @@ function makeNonCaptureMove(oldRow, oldCol, newRow, newCol, player, someBoard) {
 
 function getCapturedPieces(player){
   let captured = (player === 1)
-    ? gameState.getCapturedPlayer1()
-    : gameState.getCapturedPlayer2()
+    ? gameState.getCapturedPiecesOfPlayer1()
+    : gameState.getCapturedPiecesOfPlayer2()
 
   return gameState.deepCopy(captured)
 }

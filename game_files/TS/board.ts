@@ -6,31 +6,28 @@
 //
 // ----------------------------------------------------------------------
 
-
-
 // Sets up the default empty sqaure
-function defaultSquare () {
-  return {
-    player: 0, symbol: '#'
-  }
+function defaultSquare(): square {
+  return { player: 0, symbol: '#' }
 }
--
+
 // Creates a new Board with all defaultSquares in them
-function setUpFreshBoard () {
-  let newBoard = []
+function setUpFreshBoard(): square[][] {
+  let newBoard: square[][];
+
   for (let i = 0; i <= 11; i++) {
-    let col = []
+    let thisRow: square[];
+
     for (let j = 0; j <= 11; j++) {
-      col[j] = defaultSquare()
+      thisRow[j] = defaultSquare();
     }
-    newBoard[i] = col
+    newBoard[i] = thisRow
   }
   return newBoard
 }
 
-// Initializes an empty board with the pieces in their
-// starting position
-function initBoard (someBoard) {
+// Initializes an empty board with the pieces in their starting position
+function initBoard(someBoard: square[][]): square[][] {
   // Rooks
   someBoard[0][0].symbol = 'R1'
   someBoard[11][0].symbol = 'R1'
@@ -87,46 +84,50 @@ function initBoard (someBoard) {
 }
 
 // Deep copies a board
-function copyBoard (originalBoard) {
-  return originalBoard.map(col => global.deepCopy(col))
+function copyBoard(originalBoard: square[][]): square[][] {
+  const globalState = require('globalState').deepCopy;
+  return originalBoard.map(col => globalState.deepCopy(col))
 };
 
 // Checks whether a move is within the Board
-function withinBoard (someRow, someCol) {
-  if ((someRow <= 11) && (someRow >= 0)) { 
+function withinBoard(someRow: number, someCol: number): boolean {
+  if ((someRow <= 11) && (someRow >= 0)) {
     // if rows are in range, return value depends on columns being in range
     return ((someCol <= 11) && (someCol >= 0))
-  } else {
-    return false
-  }
+  } else return false
 }
 
-function changePieceInSquare (someBoard, row, col, newSymbol) {
-  someBoard[row][col] = newSymbol;
+function changePieceInSquare(
+  someBoard: square[][], row: number, col: number, newSymbol: string): square[][] {
+  someBoard[row][col].symbol = newSymbol;
   return someBoard;
 }
 
 // Finds the position of a piece of a side and
 // returns an object comprised of the row and column.
-function positionOf (symbol, someBoard, player) {
+function positionOf(symbol: string, someBoard: square[][], 
+  player: number): piece_position {
 
   // TODO: see if there are better ways of doing this
   // This is (n^2) complexity
   for (let a = 0; a <= 11; a++) {
     for (let b = 0; b <= 11; b++) {
-      if ( someBoard[a][b].symbol.includes(symbol) && 
-           player === someBoard[a][b].player ) {
-             return { row: a, col: b }
-           }
+      if (someBoard[a][b].symbol.includes(symbol) &&
+        player === someBoard[a][b].player) {
+        return { row: a, col: b }
+      }
     }
   }
 }
 
 // Checks if the square in which the piece is trying to move to is
 // occupied by a piece of the same side
-function isNotBlockedSquare (someRow, someCol, tempRow, tempCol, someBoard) {
+function isNotBlockedSquare(someRow: number, someCol: number, tempRow: number,
+  tempCol: number, someBoard: square[][]): boolean {
+
   let currentPlayer = someBoard[someRow][someCol].player
   let squareOccupant = someBoard[tempRow][tempCol].player
+
   return (currentPlayer !== squareOccupant)
 }
 

@@ -58,8 +58,8 @@ function evolvePiece(row, col, symbolClicked, symbolCaptured, someBoard) {
 	if (!(square.symbol.includes(symbolClicked))) return someBoard
 
 	let capturedPieceList = (square.player === 1) ?
-			stateFunctions.getCapturedPlayer1() :
-			stateFunctions.getCapturedPlayer2()
+			stateFunctions.getCapturedPiecesOfPlayer1() :
+			stateFunctions.getCapturedPiecesOfPlayer2()
 
 	capturedPieceList.forEach(element => {
 		if (element.includes(symbolCaptured)){

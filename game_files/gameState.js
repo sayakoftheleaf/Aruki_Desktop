@@ -41,8 +41,8 @@ exports.pushSquares = (row, col, arr, player) => {
 exports.getPlayerMove = () => gameState.playerMove;
 // exports.getPresentMove = () => gameState.presentMove;
 exports.getMainBoard = () => gameState.mainBoard;
-exports.getCapturedPlayer1 = () => gameState.capturedPieces.player1;
-exports.getCapturedPlayer2 = () => gameState.capturedPieces.player2;
+exports.getCapturedPiecesOfPlayer1 = () => gameState.capturedPieces.player1;
+exports.getCapturedPiecesOfPlayer2 = () => gameState.capturedPieces.player2;
 exports.getSelectedPiece = () => gameState.selectedPiece;
 exports.getPossibleMoves = () => gameState.possibleMoves;
 exports.getClickedPieceFromCapturedTray = () => gameState.clickedPieceFromCapturedTray;
@@ -51,10 +51,10 @@ exports.getClickedPieceFromCapturedTray = () => gameState.clickedPieceFromCaptur
 exports.setPlayerMove = (newMove) => { gameState.playerMove = newMove; }
 // exports.setPresentMove = (newMove) => { gameState.presentMove = newMove; }
 exports.setMainBoard = (someBoard) => { gameState.mainBoard = someBoard; }
-exports.setCapturedPlayer1 = (captured) => {
+exports.addToCapturedForPlayer1 = (captured) => {
   gameState.capturedPieces.player1.push(captured);
 }
-exports.setCapturedPlayer2 = (captured) => {
+exports.addToCapturedForPlayer2 = (captured) => {
   gameState.capturedPieces.player2.push(captured);
 }
 exports.removeFromCapturedTray = (symbol, player) => {
